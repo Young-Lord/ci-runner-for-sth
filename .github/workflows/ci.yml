@@ -13,6 +13,13 @@ jobs:
         api-level: [29]
         target: [default]
     steps:
+      - name: Fetch Apks
+        run: |
+          wget https://github.com/VET-UI-Testing/main/releases/download/apps/Apps-VET.zip
+          unzip Apps-VET.zip
+          wget https://github.com/Young-Lord/ci-runner-for-sth/releases/download/apps/Apps-1.zip
+          unzip Apps-1.zip
+
       - name: Checkout origin repository
         uses: actions/checkout@v3
         with:
