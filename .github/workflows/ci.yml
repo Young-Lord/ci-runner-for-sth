@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 env:
-  APK_DIR: /opt/apks
+  APK_DIR: Apps
 
 jobs:
   test:
