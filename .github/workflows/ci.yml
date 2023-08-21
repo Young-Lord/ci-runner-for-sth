@@ -23,6 +23,16 @@ jobs:
         uses: palewire/install-python-pipenv-pipfile@v3
         with:
           python-version: "3.10"
+          
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts
+
+      - name: Run Appium
+        run: |
+          npm i --location=global appium
+          appium driver install uiautomator2
+          appium &
 
       # https://github.com/coil-kt/coil
       # Retrieve the cached emulator snapshot.
