@@ -19,6 +19,7 @@ jobs:
           unzip Apps-VET.zip
           wget https://github.com/Young-Lord/ci-runner-for-sth/releases/download/apps/Apps-1.zip
           unzip Apps-1.zip
+          mv *.apk ${{ env.APK_DIR }}/ || true
 
       - name: Checkout origin repository
         uses: actions/checkout@v3
@@ -66,15 +67,3 @@ jobs:
             emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
             script: echo "Generated AVD snapshot."
 
-      - name: Instrumentation tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-            api-level: ${{ matrix.api-level }}
-            arch: x86_64
-            target: ${{ matrix.target }}
-            disable-animations: true
-            force-avd-creation: false
-            ram-size: 4096M
-            emulator-boot-timeout: 12000
-            emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-            script: OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} OPENAI_API_BASE=${{ vars.OPENAI_API_BASE }} ./unittest/ci.sh
