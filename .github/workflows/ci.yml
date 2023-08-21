@@ -15,9 +15,9 @@ jobs:
     steps:
       - name: Fetch Apks
         run: |
-          wget https://github.com/VET-UI-Testing/main/releases/download/apps/Apps-VET.zip
+          wget -q https://github.com/VET-UI-Testing/main/releases/download/apps/Apps-VET.zip
           unzip Apps-VET.zip
-          wget https://github.com/Young-Lord/ci-runner-for-sth/releases/download/apps/Apps-1.zip
+          wget -q https://github.com/Young-Lord/ci-runner-for-sth/releases/download/apps/Apps-1.zip
           unzip Apps-1.zip
           mv *.apk ${{ env.APK_DIR }}/ || true
 
