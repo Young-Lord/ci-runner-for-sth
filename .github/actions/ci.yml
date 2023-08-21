@@ -1,0 +1,58 @@
+name: Run Test
+on:
+  workflow_dispatch:
+
+env:
+  APK_DIR: /opt/apks
+
+jobs:
+  test:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        api-level: [29]
+        target: [default]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.ORIGINAL_REPOSITORY }}
+      - run: pipenv install
+
+      # https://github.com/coil-kt/coil
+      # Retrieve the cached emulator snapshot.
+      - uses: actions/cache@v3
+        id: avd-cache
+        with:
+            path: |
+                ~/.android/avd/*
+                ~/.android/adb*
+            key: ${{ runner.os }}-avd-${{ env.CACHE_VERSION }}-x86_64-${{ matrix.api-level }}
+
+      # Create a new emulator snapshot if it isn't present in the cache.
+      - name: Create AVD snapshot
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+            api-level: ${{ matrix.api-level }}
+            arch: ${{ steps.avd-info.outputs.arch }}
+            target: ${{ steps.avd-info.outputs.target }}
+            disable-animations: false
+            force-avd-creation: false
+            ram-size: 4096M
+            emulator-boot-timeout: 12000
+            emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+            script: echo "Generated AVD snapshot."
+
+      - name: Instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+            api-level: ${{ matrix.api-level }}
+            arch: ${{ steps.avd-info.outputs.arch }}
+            target: ${{ steps.avd-info.outputs.target }}
+            disable-animations: true
+            force-avd-creation: false
+            ram-size: 4096M
+            emulator-boot-timeout: 12000
+            emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
+            script: OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} OPENAI_API_BASE=${{ vars.OPENAI_API_BASE }} ./unittest/ci.sh
