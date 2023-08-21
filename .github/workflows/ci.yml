@@ -4,7 +4,7 @@ on:
 
 env:
   APK_DIR: Apps
-
+  CACHE_VERSION: 1 # Increment this to invalidate the cache.
 jobs:
   test:
     runs-on: macos-latest
