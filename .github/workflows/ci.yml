@@ -13,7 +13,7 @@ jobs:
         api-level: [29]
         target: [default]
     steps:
-      - name: checkout
+      - name: Checkout origin repository
         uses: actions/checkout@v3
         with:
           repository: ${{ secrets.ORIGINAL_REPOSITORY }}
