@@ -71,6 +71,13 @@ jobs:
             emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
             script: echo "Generated AVD snapshot."
 
+      - name: Check Apks
+        run: |
+          ls -l
+          ls -l ${{ env.APK_DIR }}
+          pwd
+          ls -al Apps/Abs.apk
+
       - name: Instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
