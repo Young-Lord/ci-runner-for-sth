@@ -20,6 +20,7 @@ jobs:
           wget -q https://github.com/Young-Lord/ci-runner-for-sth/releases/download/apps/Apps-1.zip
           unzip Apps-1.zip
           mv *.apk ${{ env.APK_DIR }}/
+          ls -l ${{ env.APK_DIR }}
 
       - name: Checkout origin repository
         uses: actions/checkout@v3
