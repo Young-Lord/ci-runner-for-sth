@@ -21,6 +21,7 @@ jobs:
           unzip Apps-1.zip
           mv *.apk ${{ env.APK_DIR }}/
           ls -l ${{ env.APK_DIR }}
+          pwd
 
       - name: Checkout origin repository
         uses: actions/checkout@v3
@@ -80,4 +81,4 @@ jobs:
             ram-size: 4096M
             emulator-boot-timeout: 12000
             emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-            script: OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} OPENAI_API_BASE=${{ vars.OPENAI_API_BASE }} ./unittest/ci.sh
+            script: pwd && OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} OPENAI_API_BASE=${{ vars.OPENAI_API_BASE }} ./unittest/ci.sh
