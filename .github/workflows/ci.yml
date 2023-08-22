@@ -23,7 +23,7 @@ jobs:
           mv *.apk ${{ env.APK_DIR }}/
           ls -l ${{ env.APK_DIR }}
           pwd
-          sha256sum Apps/Abs.apk
+          ls -al Apps/Abs.apk
 
       - name: Checkout origin repository
         uses: actions/checkout@v3
