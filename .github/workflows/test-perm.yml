@@ -15,12 +15,13 @@ jobs:
       issues: write
     steps:
       - name: Check User Permission
+        id: check-perm
         uses: actions-cool/check-user-permission@v2.2.0
         with:
           require: write
 
       - name: Fast forwarding
-        if: steps.check.outputs.require-result
+        if: steps.check-perm.outputs.require-result
         uses: sequoia-pgp/fast-forward@v1
         with:
           merge: true
